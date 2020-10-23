@@ -1,6 +1,7 @@
 package googlecalendar
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -9,7 +10,7 @@ type CalendarListResponse struct {
 	Etag          string              `json:"etag"`
 	NextPageToken string              `json:"nextPageToken"`
 	NextSyncToken string              `json:"nextSyncToken"`
-	Items         []CalendarListEntry `json:"calendarList"`
+	Items         []CalendarListEntry `json:"items"`
 }
 
 type CalendarListEntry struct {
@@ -22,7 +23,7 @@ type CalendarListEntry struct {
 	BackgroundColor      string             `json:"backgroundColor"`
 	ForegroundColor      string             `json:"foregroundColor"`
 	AccessRole           string             `json:"accessRole"`
-	DefaultReminders     []string           `json:"defaultReminders"`
+	DefaultReminders     []json.RawMessage  `json:"defaultReminders"`
 	ConferenceProperties ConferenceProperty `json:"conferenceProperties"`
 }
 
@@ -42,8 +43,8 @@ func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, error) {
 		if pageToken != "" {
 			queryPageToken = fmt.Sprintf("&pageToken=", pageToken)
 		}
-		url := fmt.Sprintf("%s/calendarList?maxResults=%v%s", apiURL, maxResults, queryPageToken)
-		fmt.Println(url)
+		url := fmt.Sprintf("%s/users/me/calendarList?maxResults=%v%s", apiURL, maxResults, queryPageToken)
+		//fmt.Println(url)
 
 		calendarListReponse := CalendarListResponse{}
 
