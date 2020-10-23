@@ -25,12 +25,13 @@ type GoogleCalendar struct {
 
 // methods
 //
-func NewGoogleCalendar(division int, clientID string, clientSecret string, bigQuery *bigquerytools.BigQuery, isLive bool) (*GoogleCalendar, error) {
+func NewGoogleCalendar(clientID string, clientSecret string, scope string, bigQuery *bigquerytools.BigQuery, isLive bool) (*GoogleCalendar, error) {
 	gd := GoogleCalendar{}
 	config := oauth2.OAuth2Config{
 		ApiName:         apiName,
 		ClientID:        clientID,
 		ClientSecret:    clientSecret,
+		Scope:           scope,
 		RedirectURL:     redirectURL,
 		AuthURL:         authURL,
 		TokenURL:        tokenURL,
@@ -38,6 +39,14 @@ func NewGoogleCalendar(division int, clientID string, clientSecret string, bigQu
 	}
 	gd.oAuth2 = oauth2.NewOAuth(config, bigQuery, isLive)
 	return &gd, nil
+}
+
+func (gc *GoogleCalendar) ValidateToken() error {
+	return gc.oAuth2.ValidateToken()
+}
+
+func (gc *GoogleCalendar) InitToken() error {
+	return gc.oAuth2.InitToken()
 }
 
 func (gd *GoogleCalendar) Get(url string, model interface{}) (*http.Response, error) {
