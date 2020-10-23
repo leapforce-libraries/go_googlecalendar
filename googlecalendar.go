@@ -41,10 +41,6 @@ func NewGoogleCalendar(clientID string, clientSecret string, scope string, bigQu
 	return &gd, nil
 }
 
-func (gc *GoogleCalendar) ValidateToken() error {
-	return gc.oAuth2.ValidateToken()
-}
-
 func (gc *GoogleCalendar) InitToken() error {
 	return gc.oAuth2.InitToken()
 }
