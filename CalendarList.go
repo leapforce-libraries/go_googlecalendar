@@ -41,7 +41,7 @@ func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, error) {
 	for syncToken == "" {
 		queryPageToken := ""
 		if pageToken != "" {
-			queryPageToken = fmt.Sprintf("&pageToken=", pageToken)
+			queryPageToken = fmt.Sprintf("&pageToken=%s", pageToken)
 		}
 		url := fmt.Sprintf("%s/users/me/calendarList?maxResults=%v%s", apiURL, maxResults, queryPageToken)
 		//fmt.Println(url)
