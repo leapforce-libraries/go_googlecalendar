@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/civil"
+	errortools "github.com/leapforce-libraries/go_errortools"
 )
 
 type EventsResponse struct {
@@ -106,7 +107,7 @@ type Attachment struct {
 	FileID   string `json:"fileId"`
 }
 
-func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]Event, error) {
+func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]Event, *errortools.Error) {
 	maxResults := 10
 	pageToken := ""
 	syncToken := ""
@@ -127,9 +128,9 @@ func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]
 
 		eventsReponse := EventsResponse{}
 
-		_, err := gd.Get(url, &eventsReponse)
-		if err != nil {
-			return nil, err
+		_, e := gd.Get(url, &eventsReponse)
+		if e != nil {
+			return nil, e
 		}
 
 		events = append(events, eventsReponse.Items...)

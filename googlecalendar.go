@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	bigquerytools "github.com/leapforce-libraries/go_bigquerytools"
-
+	errortools "github.com/leapforce-libraries/go_errortools"
 	oauth2 "github.com/leapforce-libraries/go_oauth2"
 )
 
@@ -41,15 +41,15 @@ func NewGoogleCalendar(clientID string, clientSecret string, scope string, bigQu
 	return &gd, nil
 }
 
-func (gc *GoogleCalendar) InitToken() error {
+func (gc *GoogleCalendar) InitToken() *errortools.Error {
 	return gc.oAuth2.InitToken()
 }
 
-func (gd *GoogleCalendar) Get(url string, model interface{}) (*http.Response, error) {
-	res, err := gd.oAuth2.Get(url, model)
+func (gd *GoogleCalendar) Get(url string, model interface{}) (*http.Response, *errortools.Error) {
+	_, res, e := gd.oAuth2.Get(url, model, nil)
 
-	if err != nil {
-		return nil, err
+	if e != nil {
+		return nil, e
 	}
 
 	return res, nil

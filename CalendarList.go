@@ -3,6 +3,8 @@ package googlecalendar
 import (
 	"encoding/json"
 	"fmt"
+
+	errortools "github.com/leapforce-libraries/go_errortools"
 )
 
 type CalendarListResponse struct {
@@ -31,7 +33,7 @@ type ConferenceProperty struct {
 	AllowedConferenceSolutionTypes []string `json:"allowedConferenceSolutionTypes"`
 }
 
-func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, error) {
+func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, *errortools.Error) {
 	maxResults := 10
 	pageToken := ""
 	syncToken := ""
@@ -48,9 +50,9 @@ func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, error) {
 
 		calendarListReponse := CalendarListResponse{}
 
-		_, err := gd.Get(url, &calendarListReponse)
-		if err != nil {
-			return nil, err
+		_, e := gd.Get(url, &calendarListReponse)
+		if e != nil {
+			return nil, e
 		}
 
 		calenderListEntries = append(calenderListEntries, calendarListReponse.Items...)
