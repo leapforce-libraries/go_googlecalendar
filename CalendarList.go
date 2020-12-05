@@ -50,7 +50,7 @@ func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, *errortools.E
 
 		calendarListReponse := CalendarListResponse{}
 
-		_, e := gd.Get(url, &calendarListReponse)
+		_, _, e := gd.Client.Get(url, &calendarListReponse)
 		if e != nil {
 			return nil, e
 		}

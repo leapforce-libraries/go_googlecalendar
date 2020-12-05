@@ -128,7 +128,7 @@ func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]
 
 		eventsReponse := EventsResponse{}
 
-		_, e := gd.Get(url, &eventsReponse)
+		_, _, e := gd.Client.Get(url, &eventsReponse)
 		if e != nil {
 			return nil, e
 		}
