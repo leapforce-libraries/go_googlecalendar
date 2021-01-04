@@ -1,7 +1,6 @@
 package googlecalendar
 
 import (
-	bigquerytools "github.com/leapforce-libraries/go_bigquerytools"
 	google "github.com/leapforce-libraries/go_google"
 )
 
@@ -18,7 +17,7 @@ type GoogleCalendar struct {
 
 // methods
 //
-func NewGoogleCalendar(clientID string, clientSecret string, scope string, bigQuery *bigquerytools.BigQuery) *GoogleCalendar {
+func NewGoogleCalendar(clientID string, clientSecret string, scope string, bigQuery *google.BigQuery) *GoogleCalendar {
 	config := google.GoogleClientConfig{
 		APIName:      apiName,
 		ClientID:     clientID,
