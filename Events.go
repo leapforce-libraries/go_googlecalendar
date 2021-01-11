@@ -107,7 +107,7 @@ type Attachment struct {
 	FileID   string `json:"fileId"`
 }
 
-func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]Event, *errortools.Error) {
+func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Event, *errortools.Error) {
 	maxResults := 10
 	pageToken := ""
 	syncToken := ""
@@ -123,12 +123,12 @@ func (gd *GoogleCalendar) GetEvents(calendarID string, timeMin *civil.Date) (*[]
 		if timeMin != nil {
 			timeMin_ = fmt.Sprintf("&timeMin=%s%s", timeMin.String(), "T00:00:00.000Z")
 		}
-		url := fmt.Sprintf("%s/calendars/%s/events?maxResults=%v%s%s", apiURL, calendarID, maxResults, queryPageToken, timeMin_)
+		url := fmt.Sprintf("%s/calendars/%s/events?maxResults=%v%s%s", APIURL, calendarID, maxResults, queryPageToken, timeMin_)
 		//fmt.Println(url)
 
 		eventsReponse := EventsResponse{}
 
-		_, _, e := gd.Client.Get(url, &eventsReponse)
+		_, _, e := service.googleService.Get(url, &eventsReponse)
 		if e != nil {
 			return nil, e
 		}

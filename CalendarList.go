@@ -33,7 +33,7 @@ type ConferenceProperty struct {
 	AllowedConferenceSolutionTypes []string `json:"allowedConferenceSolutionTypes"`
 }
 
-func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, *errortools.Error) {
+func (service *Service) GetCalendarList() (*[]CalendarListEntry, *errortools.Error) {
 	maxResults := 10
 	pageToken := ""
 	syncToken := ""
@@ -45,12 +45,12 @@ func (gd *GoogleCalendar) GetCalendarList() (*[]CalendarListEntry, *errortools.E
 		if pageToken != "" {
 			queryPageToken = fmt.Sprintf("&pageToken=%s", pageToken)
 		}
-		url := fmt.Sprintf("%s/users/me/calendarList?maxResults=%v%s", apiURL, maxResults, queryPageToken)
+		url := fmt.Sprintf("%s/users/me/calendarList?maxResults=%v%s", APIURL, maxResults, queryPageToken)
 		//fmt.Println(url)
 
 		calendarListReponse := CalendarListResponse{}
 
-		_, _, e := gd.Client.Get(url, &calendarListReponse)
+		_, _, e := service.googleService.Get(url, &calendarListReponse)
 		if e != nil {
 			return nil, e
 		}
