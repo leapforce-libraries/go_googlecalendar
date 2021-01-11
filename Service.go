@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	APIName string = "Service"
+	APIName string = "GoogleCalendar"
 	APIURL  string = "https://www.googleapis.com/calendar/v3"
 )
 
