@@ -7,6 +7,7 @@ import (
 
 	"cloud.google.com/go/civil"
 	errortools "github.com/leapforce-libraries/go_errortools"
+	oauth2 "github.com/leapforce-libraries/go_oauth2"
 )
 
 type EventsResponse struct {
@@ -123,12 +124,14 @@ func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Ev
 		if timeMin != nil {
 			timeMin_ = fmt.Sprintf("&timeMin=%s%s", timeMin.String(), "T00:00:00.000Z")
 		}
-		url := fmt.Sprintf("%s/calendars/%s/events?maxResults=%v%s%s", APIURL, calendarID, maxResults, queryPageToken, timeMin_)
-		//fmt.Println(url)
 
 		eventsReponse := EventsResponse{}
 
-		_, _, e := service.googleService.Get(url, &eventsReponse)
+		requestConfig := oauth2.RequestConfig{
+			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", APIURL, calendarID, maxResults, queryPageToken, timeMin_)),
+			ResponseModel: &eventsReponse,
+		}
+		_, _, e := service.googleService.Get(&requestConfig)
 		if e != nil {
 			return nil, e
 		}

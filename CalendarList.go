@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
+	oauth2 "github.com/leapforce-libraries/go_oauth2"
 )
 
 type CalendarListResponse struct {
@@ -45,12 +46,14 @@ func (service *Service) GetCalendarList() (*[]CalendarListEntry, *errortools.Err
 		if pageToken != "" {
 			queryPageToken = fmt.Sprintf("&pageToken=%s", pageToken)
 		}
-		url := fmt.Sprintf("%s/users/me/calendarList?maxResults=%v%s", APIURL, maxResults, queryPageToken)
-		//fmt.Println(url)
 
 		calendarListReponse := CalendarListResponse{}
 
-		_, _, e := service.googleService.Get(url, &calendarListReponse)
+		requestConfig := oauth2.RequestConfig{
+			URL:           service.url(fmt.Sprintf("users/me/calendarList?maxResults=%v%s", maxResults, queryPageToken)),
+			ResponseModel: &calendarListReponse,
+		}
+		_, _, e := service.googleService.Get(&requestConfig)
 		if e != nil {
 			return nil, e
 		}
