@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
-	oauth2 "github.com/leapforce-libraries/go_oauth2"
+	go_http "github.com/leapforce-libraries/go_http"
 )
 
 type CalendarListResponse struct {
@@ -49,7 +49,7 @@ func (service *Service) GetCalendarList() (*[]CalendarListEntry, *errortools.Err
 
 		calendarListReponse := CalendarListResponse{}
 
-		requestConfig := oauth2.RequestConfig{
+		requestConfig := go_http.RequestConfig{
 			URL:           service.url(fmt.Sprintf("users/me/calendarList?maxResults=%v%s", maxResults, queryPageToken)),
 			ResponseModel: &calendarListReponse,
 		}

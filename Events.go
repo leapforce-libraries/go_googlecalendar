@@ -7,7 +7,7 @@ import (
 
 	"cloud.google.com/go/civil"
 	errortools "github.com/leapforce-libraries/go_errortools"
-	oauth2 "github.com/leapforce-libraries/go_oauth2"
+	go_http "github.com/leapforce-libraries/go_http"
 )
 
 type EventsResponse struct {
@@ -127,7 +127,7 @@ func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Ev
 
 		eventsReponse := EventsResponse{}
 
-		requestConfig := oauth2.RequestConfig{
+		requestConfig := go_http.RequestConfig{
 			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", APIURL, calendarID, maxResults, queryPageToken, timeMin_)),
 			ResponseModel: &eventsReponse,
 		}
