@@ -128,7 +128,7 @@ func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Ev
 		eventsReponse := EventsResponse{}
 
 		requestConfig := go_http.RequestConfig{
-			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", APIURL, calendarID, maxResults, queryPageToken, timeMin_)),
+			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", calendarID, maxResults, queryPageToken, timeMin_)),
 			ResponseModel: &eventsReponse,
 		}
 		_, _, e := service.googleService.Get(&requestConfig)
