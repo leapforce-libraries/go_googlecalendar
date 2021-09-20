@@ -39,7 +39,7 @@ type Event struct {
 	Organizer          Attendee        `json:"organizer"`
 	Start              StartEndTime    `json:"start"`
 	End                StartEndTime    `json:"end"`
-	EndTimeUnspecified string          `json:"endTimeUnspecified"`
+	EndTimeUnspecified bool            `json:"endTimeUnspecified"`
 	RecurringEventId   json.RawMessage `json:"recurringEventId"`
 	OriginalStartTime  StartEndTime    `json:"originalStartTime"`
 	Transparency       string          `json:"transparency"`
