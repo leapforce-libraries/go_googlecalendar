@@ -3,6 +3,7 @@ package googlecalendar
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
 	go_http "github.com/leapforce-libraries/go_http"
@@ -50,10 +51,11 @@ func (service *Service) GetCalendarList() (*[]CalendarListEntry, *errortools.Err
 		calendarListReponse := CalendarListResponse{}
 
 		requestConfig := go_http.RequestConfig{
+			Method:        http.MethodGet,
 			URL:           service.url(fmt.Sprintf("users/me/calendarList?maxResults=%v%s", maxResults, queryPageToken)),
 			ResponseModel: &calendarListReponse,
 		}
-		_, _, e := service.googleService.Get(&requestConfig)
+		_, _, e := service.googleService.HTTPRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}

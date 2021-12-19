@@ -3,6 +3,7 @@ package googlecalendar
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"cloud.google.com/go/civil"
@@ -128,10 +129,11 @@ func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Ev
 		eventsReponse := EventsResponse{}
 
 		requestConfig := go_http.RequestConfig{
+			Method:        http.MethodGet,
 			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", calendarID, maxResults, queryPageToken, timeMin_)),
 			ResponseModel: &eventsReponse,
 		}
-		_, _, e := service.googleService.Get(&requestConfig)
+		_, _, e := service.googleService.HTTPRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}
