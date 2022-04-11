@@ -97,12 +97,12 @@ type Reminder struct {
 }
 
 type Source struct {
-	URL   string `json:"url"`
+	Url   string `json:"url"`
 	Title string `json:"title"`
 }
 
 type Attachment struct {
-	FileURL  string `json:"fileUrl"`
+	FileUrl  string `json:"fileUrl"`
 	Title    string `json:"title"`
 	MimeType string `json:"mimeType"`
 	IconLink string `json:"iconLink"`
@@ -130,10 +130,10 @@ func (service *Service) GetEvents(calendarID string, timeMin *civil.Date) (*[]Ev
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
-			URL:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", calendarID, maxResults, queryPageToken, timeMin_)),
+			Url:           service.url(fmt.Sprintf("calendars/%s/events?maxResults=%v%s%s", calendarID, maxResults, queryPageToken, timeMin_)),
 			ResponseModel: &eventsReponse,
 		}
-		_, _, e := service.googleService.HTTPRequest(&requestConfig)
+		_, _, e := service.googleService.HttpRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}

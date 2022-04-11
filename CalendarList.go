@@ -52,10 +52,10 @@ func (service *Service) GetCalendarList() (*[]CalendarListEntry, *errortools.Err
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
-			URL:           service.url(fmt.Sprintf("users/me/calendarList?maxResults=%v%s", maxResults, queryPageToken)),
+			Url:           service.url(fmt.Sprintf("users/me/calendarList?maxResults=%v%s", maxResults, queryPageToken)),
 			ResponseModel: &calendarListReponse,
 		}
-		_, _, e := service.googleService.HTTPRequest(&requestConfig)
+		_, _, e := service.googleService.HttpRequest(&requestConfig)
 		if e != nil {
 			return nil, e
 		}
